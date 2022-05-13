@@ -12,4 +12,5 @@ module.exports = {
   MINER_PRIVATE_KEY: "ce54949c332aec9df174d3eec6ff4f3c1662d7eb3ba4522a301069ca94c2e3bd",
   BLOCK_REWARD: 10,
   BLOCK_SIZE: 3,
+  BLOCK_TIME: 10000,
 }

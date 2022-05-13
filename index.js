@@ -44,9 +44,9 @@ const server = jayson.server({
         const newTx = new Transaction(inputs, 
         [new UTXO(recipient, amount), new UTXO(sender, inputVal - amount - fee)]);
         mempool.txns.push(newTx);
+        callback(null, "transaction submitted to mempool")
       }
     }
-    callback(null, "transaction submitted to mempool")
   }
 });
 

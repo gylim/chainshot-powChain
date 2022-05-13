@@ -5,7 +5,7 @@ const fs = require('fs');
 const {performance} = require('perf_hooks');
 const db = require('./db');
 const mempool = require('./mempool');
-const {MINER_PUBLIC_KEY, BLOCK_REWARD, BLOCK_SIZE} = require('./config');
+const {MINER_PUBLIC_KEY, BLOCK_REWARD, BLOCK_SIZE, BLOCK_TIME} = require('./config');
 let TARGET_DIFFICULTY = BigInt("0x" + "0".repeat(5) + "F".repeat(59));
 let avgBlocktime = [];
 
@@ -67,19 +67,19 @@ function mine() {
     hash: ${block.hash()}, 
     nonce: ${block.nonce}, 
     txn count: ${block.transactions.length},
-    blocktimes: ${avgBlocktime}`);
+    blocktime: ${avgBlocktime.slice(-1)}`);
   
   // adjust difficulty every 10 blocks
   if (avgBlocktime.length === 10) {
     const average = avgBlocktime.reduce((a,b) => a + b, 0) / 10;
-    if (average > 1100) {
+    if (average > BLOCK_TIME*1.1) {
       TARGET_DIFFICULTY *= BigInt(2);
-    } else if (average < 900) {
+    } else if (average < BLOCK_TIME*0.9) {
       TARGET_DIFFICULTY /= BigInt(2);
     }
     avgBlocktime = [];
   }
-  mine();
+  setTimeout(mine, 0);
 }
 
 module.exports = {
