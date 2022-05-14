@@ -1,6 +1,7 @@
 class Blockchain {
-  constructor() {
-    this.blocks = [];
+  constructor(json) {
+    if(json) Object.assign(this, json);
+    this.blocks = json ? json.blocks : [];
   }
   addBlock(block) {
     this.blocks.push(block);
